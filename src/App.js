@@ -12,6 +12,7 @@ import {
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Nav from "./components/Nav"
 
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -102,7 +103,11 @@ class App extends React.Component<{}, State> {
           </nav>
         );
       } else {
-        return null;
+        return (
+            // TODO: Cases for Home / Login / Dashboard etc. need to be added, currently one main nav for all
+            // TODO: Extend Nav so that depending on bath corresponding tab's and buttons are shown
+            <Nav/>
+        );
       }
     });
 

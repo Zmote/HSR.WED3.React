@@ -21,6 +21,6 @@ const Home = ({isAuthenticated}: Props) => (
         </div>
     }
   </div>
-)
+);
 
 export default Home
