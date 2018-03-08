@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { Input, Button } from "semantic-ui-react";
 
 import { signup } from "../api";
 
@@ -62,28 +63,28 @@ class Signup extends React.Component<{}, *> {
         <h1>Bank of Rapperswil</h1>
         <form>
           <h2>Registrieren</h2>
-          <input
+          <Input
             onChange={this.handleLoginChanged}
             placeholder="Login"
             value={this.state.login}
           />
-          <input
+          <Input
             onChange={this.handleFirstNameChanged}
             placeholder="Vorname"
             value={this.state.firstname}
           />
-          <input
+          <Input
             onChange={this.handleLastNameChanged}
             placeholder="Nachname"
             value={this.state.lastname}
           />
-          <input
+          <Input
             onChange={this.handlePasswordChanged}
             placeholder="Passwort"
             type="password"
             value={this.state.password}
           />
-          <button onClick={this.handleSubmit}>Account eröffnen</button>
+          <Button onClick={this.handleSubmit}>Account eröffnen</Button>
         </form>
         {error && <p>Es ist ein Fehler aufgetreten!</p>}
       </div>
