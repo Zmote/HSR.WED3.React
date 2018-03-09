@@ -1,6 +1,7 @@
 import React from "react"
 import {getAccount, getAccountDetails, transfer} from "../../api";
 
+//TODO: Hilfsfunktionen in Service auslagern
 class Payment extends React.Component {
     state = {
         accountNr: "",
@@ -52,8 +53,8 @@ class Payment extends React.Component {
 
     performTransfer = () => {
         if (this.state.targetAccountNr && this.state.targetAccountExists
-            && this.state.transferAmount && Number(this.state.transferAmount) !== 0) {
-            transfer(this.state.targetAccountNr, this.state.transferAmount, this.props.token).then(response => {
+            && this.state.transferAmount && Number(this.state.transferAmount) >= 1) {
+            transfer(Number(this.state.targetAccountNr), Number(this.state.transferAmount), this.props.token).then(response => {
                 this.setState({amount: response.total});
                 this.props.loadTransactionCallback();
                 this.setState({paymentExecuted: true})
@@ -62,14 +63,14 @@ class Payment extends React.Component {
             if (!this.state.targetAccountNr || !this.state.targetAccountExists) {
                 this.setState({needsTargetAccountReminder: true});
             }
-            if (!this.state.transferAmount || Number(this.state.transferAmount) === 0) {
+            if (!this.state.transferAmount || Number(this.state.transferAmount) < 1) {
                 this.setState({needsTransferAmountReminder: true});
             }
         }
     };
 
     queryTargetAccount = (accountNr) => {
-        getAccount(accountNr, this.props.token)
+        getAccount(Number(accountNr), this.props.token)
             .then(response => {
                 this.setState({
                     targetAccountMessage: {message: response.owner.firstname + " " + response.owner.lastname},
@@ -96,7 +97,7 @@ class Payment extends React.Component {
     };
 
     checkTransferAmount = (transferAmount: Number) => {
-        if (!transferAmount || Number(transferAmount) === 0) {
+        if (!transferAmount || Number(transferAmount) < 1) {
             this.setState({targetAmountMessage: {message: "Geben Sie einen gültigen Betrag an"}})
         } else {
             this.setState({targetAmountMessage: undefined});
@@ -154,7 +155,7 @@ class Payment extends React.Component {
                                     <input
                                         type="number"
                                         onChange={this.handleTransferAmountChanged}
-                                        placeholder="Betrag in CHF"
+                                        placeholder="Betrag in CHF und >= 1"
                                     />
                                 </div>
                                 {targetAmountMessage &&
@@ -191,7 +192,7 @@ class Payment extends React.Component {
             const {transferAmount, targetAccountNr, amount} = this.state;
             return (
                 <div>
-                    <h1 className="ui top attached block header">Neue Zahlungen</h1>
+                    <h1 className="ui top attached block header">Transaktion erfolgreich!</h1>
                     <div className="ui bottom attached segment form vertically padded grid">
                         <p className="sixteen wide column">
                             Ihre Zahlung von {transferAmount} CHF wurde erfolgreich an das Konto mit der
