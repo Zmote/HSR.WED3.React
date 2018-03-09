@@ -10,11 +10,11 @@ class Payment extends React.Component {
         targetAccountMessage: undefined,
         targetAmountMessage: undefined,
         transferAmount: "",
-        targetAccountExists:false,
+        targetAccountExists: false,
         paymentExecuted: false,
         canPay: true,
-        needsTargetAccountReminder:false,
-        needsTransferAmountReminder:false
+        needsTargetAccountReminder: false,
+        needsTransferAmountReminder: false
     };
 
     componentDidMount() {
@@ -51,18 +51,19 @@ class Payment extends React.Component {
     };
 
     performTransfer = () => {
-        if(this.state.targetAccountNr && this.state.targetAccountExists && this.state.transferAmount){
+        if (this.state.targetAccountNr && this.state.targetAccountExists
+            && this.state.transferAmount && Number(this.state.transferAmount) !== 0) {
             transfer(this.state.targetAccountNr, this.state.transferAmount, this.props.token).then(response => {
                 this.setState({amount: response.total});
                 this.props.loadTransactionCallback();
                 this.setState({paymentExecuted: true})
             })
-        }else{
-            if(!this.state.targetAccountNr || !this.state.targetAccountExists){
-                this.setState({needsTargetAccountReminder:true});
+        } else {
+            if (!this.state.targetAccountNr || !this.state.targetAccountExists) {
+                this.setState({needsTargetAccountReminder: true});
             }
-            if(!this.state.transferAmount){
-                this.setState({needsTransferAmountReminder:true});
+            if (!this.state.transferAmount || Number(this.state.transferAmount) === 0) {
+                this.setState({needsTransferAmountReminder: true});
             }
         }
     };
@@ -70,10 +71,13 @@ class Payment extends React.Component {
     queryTargetAccount = (accountNr) => {
         getAccount(accountNr, this.props.token)
             .then(response => {
-                this.setState({targetAccountMessage: {message: response.owner.firstname + " " + response.owner.lastname},targetAccountExists:true});
+                this.setState({
+                    targetAccountMessage: {message: response.owner.firstname + " " + response.owner.lastname},
+                    targetAccountExists: true
+                });
             })
             .catch(error => {
-                this.setState({targetAccountMessage: {message: "Konto nicht gefunden"}, targetAccountExists:false});
+                this.setState({targetAccountMessage: {message: "Konto nicht gefunden"}, targetAccountExists: false});
             });
     };
 
@@ -84,24 +88,24 @@ class Payment extends React.Component {
             this.queryTargetAccount(accountNr);
         }
         if (this.state.owner && accountNr === this.state.owner.accountNr) {
-            this.setState({canPay:false});
-        }else{
-            this.setState({canPay:true});
+            this.setState({canPay: false});
+        } else {
+            this.setState({canPay: true});
         }
-        this.setState({needsTargetAccountReminder:false});
+        this.setState({needsTargetAccountReminder: false});
     };
 
     checkTransferAmount = (transferAmount: Number) => {
-        if (!transferAmount) {
+        if (!transferAmount || Number(transferAmount) === 0) {
             this.setState({targetAmountMessage: {message: "Geben Sie einen gültigen Betrag an"}})
         } else {
             this.setState({targetAmountMessage: undefined});
         }
-        this.setState({needsTransferAmountReminder:false});
+        this.setState({needsTransferAmountReminder: false});
     };
 
     clearPaymentExecuted = () => {
-        this.setState({paymentExecuted: false, targetAccountNr:"", transferAmount:""});
+        this.setState({paymentExecuted: false, targetAccountNr: "", transferAmount: ""});
         this.checkTargetAccount(undefined);
         this.checkTransferAmount(undefined);
     };
@@ -109,7 +113,7 @@ class Payment extends React.Component {
     render() {
         const {paymentExecuted} = this.state;
         if (!paymentExecuted) {
-            const {targetAccountMessage, targetAmountMessage, canPay,needsTargetAccountReminder, needsTransferAmountReminder} = this.state;
+            const {targetAccountMessage, targetAmountMessage, canPay, needsTargetAccountReminder, needsTransferAmountReminder} = this.state;
             return (
                 <div>
                     <h1 className="ui top attached block header">Neue Zahlungen</h1>
@@ -137,7 +141,7 @@ class Payment extends React.Component {
                                     />
                                 </div>
                                 {targetAccountMessage &&
-                                <div className={"ui pointing basic label " + (needsTargetAccountReminder? "red":"")}>
+                                <div className={"ui pointing basic label " + (needsTargetAccountReminder ? "red" : "")}>
                                     {targetAccountMessage.message}
                                 </div>
                                 }
@@ -154,7 +158,8 @@ class Payment extends React.Component {
                                     />
                                 </div>
                                 {targetAmountMessage &&
-                                <div className={"ui pointing basic label " + (needsTransferAmountReminder? "red":"")}>
+                                <div
+                                    className={"ui pointing basic label " + (needsTransferAmountReminder ? "red" : "")}>
                                     {targetAmountMessage.message}
                                 </div>
                                 }
