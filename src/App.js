@@ -5,7 +5,6 @@ import "semantic-ui-css/semantic.min.css"
 import {
   BrowserRouter as Router,
   Route,
-  Link,
   withRouter
 } from "react-router-dom";
 
@@ -13,16 +12,14 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Nav from "./components/Nav"
+import Dashboard from "./components/Dashboard"
+import AllTransactions from "./components/AllTransactions"
 
 import PrivateRoute from "./components/PrivateRoute";
 
 import * as api from "./api";
 
 import type { User } from "./api";
-
-// TODO: Move to own files
-const AllTransactions = () => <div />;
-const Dashboard = () => <div />;
 
 type State = {
   isAuthenticated: boolean,
@@ -83,29 +80,13 @@ class App extends React.Component<{}, State> {
     const MenuBar = withRouter(({ history, location: { pathname } }) => {
       if (isAuthenticated && user) {
         return (
-          <nav>
-            <span>
-              {user.firstname} {user.lastname} &ndash; {user.accountNr}
-            </span>
-            {/* Links inside the App are created using the react-router's Link component */}
-            <Link to="/">Home</Link>
-            <Link to="/dashboard">Kontoübersicht</Link>
-            <Link to="/transactions">Zahlungen</Link>
-            <a
-              href="/logout"
-              onClick={event => {
-                event.preventDefault();
-                this.signout(() => history.push("/"));
-              }}
-            >
-              Logout {user.firstname} {user.lastname}
-            </a>
-          </nav>
+            <Nav user={user} callback={this.signout.bind(this)}>
+                {/* TODO: Nur noch dieser Link bis eingebunden werden in Nav oder entsprechender Seite*/}
+                {/*<Link to="/dashboard">Kontoübersicht</Link>*/}
+            </Nav>
         );
       } else {
         return (
-            // TODO: Cases for Home / Login / Dashboard etc. need to be added, currently one main nav for all
-            // TODO: Extend Nav so that depending on bath corresponding tab's and buttons are shown
             <Nav/>
         );
       }

@@ -2,7 +2,6 @@
 
 import React from "react";
 import {Redirect, Link} from "react-router-dom";
-import Nav from "./Nav"
 
 export type Props = {
     /* Callback to submit an authentication request to the server */
@@ -23,18 +22,40 @@ class Login extends React.Component<Props, *> {
         login: "",
         password: "",
         error: undefined,
-        redirectToReferrer: false
+        redirectToReferrer: false,
+        passwordError: undefined,
+        usernameError:undefined
+    };
+
+    checkPassword = (password:String)=>{
+        if(password.length < 4){
+            this.setState({passwordError:{message:"Passwort muss mindestends drei Charakter lang sein"}})
+        }else {
+            this.setState({passwordError: undefined});
+        }
+    };
+
+    checkLogin = (login:String)=>{
+        if(login.length < 4){
+            this.setState({usernameError:{message:"Benutzername muss mindestens drei Charakter lang sein"}})
+        }else {
+            this.setState({usernameError: undefined});
+        }
     };
 
     handleLoginChanged = (event: Event) => {
         if (event.target instanceof HTMLInputElement) {
-            this.setState({login: event.target.value});
+            const login = event.target.value;
+            this.setState({login});
+            this.checkLogin(login);
         }
     };
 
     handlePasswordChanged = (event: Event) => {
         if (event.target instanceof HTMLInputElement) {
-            this.setState({password: event.target.value});
+            const password = event.target.value;
+            this.setState({password});
+            this.checkPassword(password);
         }
     };
 
@@ -54,7 +75,7 @@ class Login extends React.Component<Props, *> {
         const {from} = this.props.location.state || {
             from: {pathname: "/dashboard"}
         };
-        const {redirectToReferrer, error} = this.state;
+        const {redirectToReferrer, error, passwordError, usernameError} = this.state;
 
         if (redirectToReferrer) {
             return <Redirect to={from}/>;
@@ -66,28 +87,40 @@ class Login extends React.Component<Props, *> {
                     <div className="row">
                         <div className="column">
                             <h1 className="ui top attached block header">Bank of Rapperswil</h1>
-                            <form className="ui bottom attached segment vertically padded grid">
+                            <form className="ui bottom attached segment vertically padded grid form">
                                 <div className="row">
                                     <div className="column">
                                         <h2>Login</h2>
-                                        <div className="ui fluid input">
+                                        <div className="field">
+                                            <label>Benutzername</label>
                                             <input
                                                 onChange={this.handleLoginChanged}
                                                 placeholder="Login"
                                                 value={this.state.login}
                                             />
+                                            {usernameError &&
+                                            <div className="ui pointing red basic label">
+                                                {usernameError.message}
+                                            </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="column">
-                                        <div className="ui fluid input">
+                                        <div className="field">
+                                            <label>Passwort</label>
                                             <input
                                                 onChange={this.handlePasswordChanged}
                                                 placeholder="Password"
                                                 type="password"
                                                 value={this.state.password}
                                             />
+                                            {passwordError &&
+                                            <div className="ui pointing red basic label">
+                                                {passwordError.message}
+                                            </div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
