@@ -7,7 +7,7 @@ class Nav extends React.Component {
             const user = this.props.user;
             const AuthNav = withRouter(({history}) => {
                 return (
-                    <div className="ui inverted menu attached">
+                    <div className="ui inverted stackable menu attached">
                         <div className="header item">
                             <h2>WED3 Testat / Dogan - Brunner</h2>
                         </div>
@@ -44,7 +44,7 @@ class Nav extends React.Component {
             )
         } else {
             return (
-                <div className="ui inverted menu attached">
+                <div className="ui inverted stackable menu attached">
                     <div className="header item">
                         <h2>WED3 Testat / Dogan - Brunner</h2>
                     </div>

@@ -9,11 +9,11 @@ import {
 } from "react-router-dom";
 
 import Home from "./components/Home";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import Login from "./components/identity/Login";
+import Signup from "./components/identity/Signup";
 import Nav from "./components/Nav"
-import Dashboard from "./components/Dashboard"
-import AllTransactions from "./components/AllTransactions"
+import Dashboard from "./components/dashboard/Dashboard"
+import AllTransactions from "./components/dashboard/AllTransactions"
 
 import PrivateRoute from "./components/PrivateRoute";
 
