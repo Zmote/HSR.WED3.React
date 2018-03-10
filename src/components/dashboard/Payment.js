@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import {getAccount, getAccountDetails, transfer} from "../../api";
 
 //TODO: Hilfsfunktionen in Service auslagern
@@ -54,6 +54,7 @@ class Payment extends React.Component {
     performTransfer = () => {
         if (this.state.targetAccountNr && this.state.targetAccountExists
             && this.state.transferAmount && Number(this.state.transferAmount) >= 1) {
+            console.log(Number(this.state.transferAmount));
             transfer(Number(this.state.targetAccountNr), Number(this.state.transferAmount), this.props.token).then(response => {
                 this.setState({amount: response.total});
                 this.props.loadTransactionCallback();

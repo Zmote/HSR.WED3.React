@@ -1,19 +1,24 @@
 import React from "react";
-import Payment from "./Payment"
-import LastTransactions from "./LastTransactions"
-import {getTransactions} from "../../api";
+import Payment from "./Payment";
+import Transactions from "./Transactions";
+import TransactionService from "../../services/TransactionService";
 
 class Dashboard extends React.Component {
     state = {
         transactions: [],
     };
 
-    componentDidMount() {
-        this.loadTransactions(this.props.token);
+    constructor(props: any) {
+        super(props);
+        this.transactionService = TransactionService.instance();
     }
 
-    loadTransactions = () => {
-        getTransactions(this.props.token, "", "", 15).then(response => {
+    componentDidMount() {
+        this.updateTransactions();
+    }
+
+    updateTransactions = () => {
+        this.transactionService.loadTransactions(this.props.token).then(response => {
             this.setState({transactions: response.result});
         });
     };
@@ -24,10 +29,10 @@ class Dashboard extends React.Component {
             <div className="ui three column padded stackable grid">
                 <div className="row">
                     <div className="four wide column">
-                        <Payment token={this.props.token} loadTransactionCallback={this.loadTransactions.bind(this)}/>
+                        <Payment token={this.props.token} loadTransactionCallback={this.updateTransactions.bind(this)}/>
                     </div>
                     <div className="twelve wide column">
-                        <LastTransactions transactions={transactions}/>
+                        <Transactions transactions={transactions} title={"Letzte Transaktionen"}/>
                     </div>
                 </div>
             </div>

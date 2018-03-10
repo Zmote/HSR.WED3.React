@@ -18,7 +18,7 @@ class Nav extends React.Component {
                         <NavLink className="item"
                                  exact
                                  activeClassName="active"
-                                 to={"/transactions"}>Zahlungen</NavLink>
+                                 to={"/transactions"}>Transaktionen</NavLink>
                         <div className="right menu">
                             <NavLink className="item"
                                      exact

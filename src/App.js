@@ -1,7 +1,7 @@
 // @flow
 
 import React from "react";
-import "semantic-ui-css/semantic.min.css"
+import "semantic-ui-css/semantic.min.css";
 import {
   BrowserRouter as Router,
   Route,
@@ -11,9 +11,9 @@ import {
 import Home from "./components/Home";
 import Login from "./components/identity/Login";
 import Signup from "./components/identity/Signup";
-import Nav from "./components/Nav"
-import Dashboard from "./components/dashboard/Dashboard"
-import AllTransactions from "./components/dashboard/AllTransactions"
+import Nav from "./components/Nav";
+import Dashboard from "./components/dashboard/Dashboard";
+import AllTransactions from "./components/dashboard/TransactionsOverview";
 
 import PrivateRoute from "./components/PrivateRoute";
 
