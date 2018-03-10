@@ -7,35 +7,80 @@ import { signup } from "../../api";
 
 class Signup extends React.Component<{}, *> {
   state = {
-    login: "",
-    firstname: "",
-    lastname: "",
-    password: "",
-    error: null,
-    redirectToReferrer: false
+      login: "",
+      firstname: "",
+      lastname: "",
+      password: "",
+      error: null,
+      redirectToReferrer: false,
+      loginError: undefined,
+      firstNameError: undefined,
+      lastNameError: undefined,
+      passwordError: undefined
+  };
+
+  checkLogin = (login:String) => {
+    if(login.length < 4){
+      this.setState({loginError:{message:"Login muss mindestends drei Charakter lang sein"}})
+    }else{
+      this.setState({loginError:undefined});
+    }
+  };
+
+  checkFirstName = (firstName:String) => {
+    if(firstName.length < 1){
+      this.setState({firstNameError:{message:"Firstname darf nicht leer sein"}})
+    }else{
+      this.setState({firstNameError:undefined});
+    }
+  };
+
+  checkLastName = (lastname:String) => {
+    if(lastname.length < 1){
+      this.setState({lastNameError:{message:"Lastname darf nicht leer sein"}})
+    }else{
+      this.setState({lastNameError:undefined});
+    }
+  };
+
+  checkPassword = (password:String) => {
+    if(password.length < 4){
+      this.setState({passwordError:{message:"Password muss mindestends drei Chrakter lang sein"}})
+    }else{
+      this.setState({passwordError:undefined});
+    }
   };
 
   handleLoginChanged = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
-      this.setState({ login: event.target.value });
+      const login = event.target.value;
+      this.setState({login});
+      this.checkLogin(login);
+
     }
   };
 
   handleFirstNameChanged = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
-      this.setState({ firstname: event.target.value });
+      const firstname = event.target.value;
+      this.setState({firstname});
+      this.checkFirstName(firstname);
     }
   };
 
   handleLastNameChanged = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
-      this.setState({ lastname: event.target.value });
+      const lastname = event.target.value;
+        this.setState({lastname});
+        this.checkLastName(lastname);
     }
   };
 
   handlePasswordChanged = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
-      this.setState({ password: event.target.value });
+      const password = event.target.value;
+      this.setState({password});
+      this.checkPassword(password);
     }
   };
 
@@ -51,7 +96,7 @@ class Signup extends React.Component<{}, *> {
   };
 
   render() {
-    const { redirectToReferrer, error } = this.state;
+    const { redirectToReferrer, error, loginError, firstNameError, lastNameError, passwordError } = this.state;
 
     if (redirectToReferrer) {
       return <Redirect to="/login" />;
@@ -75,6 +120,11 @@ class Signup extends React.Component<{}, *> {
                         placeholder="Login"
                         value={this.state.login}
                       />
+                        {loginError &&
+                        <div className="ui pointing red basic label">
+                            {loginError.message}
+                        </div>
+                        }
                     </div>
                   </div>
                 </div>
@@ -88,6 +138,11 @@ class Signup extends React.Component<{}, *> {
                         placeholder="Vorname"
                         value={this.state.firstname}
                       />
+                        {firstNameError &&
+                        <div className="ui pointing red basic label">
+                            {firstNameError.message}
+                        </div>
+                        }
                     </div>
                   </div>
                 </div>
@@ -101,6 +156,11 @@ class Signup extends React.Component<{}, *> {
                         placeholder="Nachname"
                         value={this.state.lastname}
                       />
+                        {lastNameError &&
+                        <div className="ui pointing red basic label">
+                            {lastNameError.message}
+                        </div>
+                        }
                     </div>
                   </div>
                 </div>
@@ -115,6 +175,11 @@ class Signup extends React.Component<{}, *> {
                         type="password"
                         value={this.state.password}
                       />
+                        {passwordError &&
+                        <div className="ui pointing red basic label">
+                            {passwordError.message}
+                        </div>
+                        }
                     </div>
                   </div>
                 </div>
