@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { Input, Button } from "semantic-ui-react";
 
 import { signup } from "../api";
 
@@ -60,33 +59,86 @@ class Signup extends React.Component<{}, *> {
 
     return (
       <div>
-        <h1>Bank of Rapperswil</h1>
-        <form>
-          <h2>Registrieren</h2>
-          <Input
-            onChange={this.handleLoginChanged}
-            placeholder="Login"
-            value={this.state.login}
-          />
-          <Input
-            onChange={this.handleFirstNameChanged}
-            placeholder="Vorname"
-            value={this.state.firstname}
-          />
-          <Input
-            onChange={this.handleLastNameChanged}
-            placeholder="Nachname"
-            value={this.state.lastname}
-          />
-          <Input
-            onChange={this.handlePasswordChanged}
-            placeholder="Passwort"
-            type="password"
-            value={this.state.password}
-          />
-          <Button onClick={this.handleSubmit}>Account eröffnen</Button>
-        </form>
-        {error && <p>Es ist ein Fehler aufgetreten!</p>}
+        <div className="ui padded grid">
+          <div className="row">
+            <div className="column">
+              <h1 className="ui top attached block header">Bank of Rapperswil</h1>
+              <form className="ui bottom attached segment vertically padded grid form">
+
+                <div className="row">
+                  <div className="column">
+                    <h2>Registrieren</h2>
+                    <div className="field">
+                      <label>Login</label>
+                      <input
+                        onChange={this.handleLoginChanged}
+                        placeholder="Login"
+                        value={this.state.login}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="column">
+                    <div className="field">
+                      <label>Firstname</label>
+                      <input
+                        onChange={this.handleFirstNameChanged}
+                        placeholder="Vorname"
+                        value={this.state.firstname}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="column">
+                    <div className="field">
+                      <label>Lastname</label>
+                      <input
+                        onChange={this.handleLastNameChanged}
+                        placeholder="Nachname"
+                        value={this.state.lastname}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="column">
+                    <div className="field">
+                      <label>Password</label>
+                      <input
+                        onChange={this.handlePasswordChanged}
+                        placeholder="Passwort"
+                        type="password"
+                        value={this.state.password}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="column">
+                    <button className="ui primary button" onClick={this.handleSubmit}>Account eröffnen</button>
+                  </div>
+                </div>
+
+              </form>
+
+              <div className="ui grid">
+                {error &&
+                <div className="row">
+                  <div className="column">
+                    <p className="ui pointing red basic label">Es ist ein Fehler aufgetreten!</p>
+                  </div>
+                </div>}
+              </div>
+
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
