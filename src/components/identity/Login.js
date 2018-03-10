@@ -132,9 +132,16 @@ class Login extends React.Component<Props, *> {
                                 </div>
                             </form>
                             <div className="ui grid">
+                                {error &&
                                 <div className="row">
                                     <div className="column">
-                                        {error && <p>Es ist ein Fehler aufgetreten!</p>}
+                                        <p className="ui pointing red basic label">Es ist ein Fehler
+                                            aufgetreten! Überprüfen Sie Ihre Logininformationen!</p>
+                                    </div>
+                                </div>
+                                }
+                                <div className="row">
+                                    <div className="column">
                                         <Link to="/signup">Noch keinen Account?</Link>
                                     </div>
                                 </div>
