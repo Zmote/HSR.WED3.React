@@ -17,6 +17,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
+## Web Access
+This app is being auto deployed to [https://wed3-react-dogan-brunner.netlify.com/](https://wed3-react-dogan-brunner.netlify.com/) via app.netlify.com platform. It watches the "develop" branch.
+
 ## Implementation Hints
 
 The code only provides a minimal but functional skeleton of the application. It does not use any widget library, you're free to choose your own or none at all. The code also is not structured very well, please fix that.
