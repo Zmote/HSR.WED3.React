@@ -24,21 +24,22 @@ class Login extends React.Component<Props, *> {
         error: undefined,
         redirectToReferrer: false,
         passwordError: undefined,
-        usernameError:undefined
+        usernameError: undefined,
+        loginInProcess: false
     };
 
-    checkPassword = (password:String)=>{
-        if(password.length < 4){
-            this.setState({passwordError:{message:"Passwort muss mindestends drei Charakter lang sein"}})
-        }else {
+    checkPassword = (password: String) => {
+        if (password.length < 4) {
+            this.setState({passwordError: {message: "Passwort muss mindestends drei Charakter lang sein"}})
+        } else {
             this.setState({passwordError: undefined});
         }
     };
 
-    checkLogin = (login:String)=>{
-        if(login.length < 4){
-            this.setState({usernameError:{message:"Benutzername muss mindestens drei Charakter lang sein"}})
-        }else {
+    checkLogin = (login: String) => {
+        if (login.length < 4) {
+            this.setState({usernameError: {message: "Benutzername muss mindestens drei Charakter lang sein"}})
+        } else {
             this.setState({usernameError: undefined});
         }
     };
@@ -61,6 +62,7 @@ class Login extends React.Component<Props, *> {
 
     handleSubmit = (event: Event) => {
         event.preventDefault();
+        this.setState({loginInProcess: true});
         const {login, password} = this.state;
         this.props.authenticate(login, password, error => {
             if (error) {
@@ -68,6 +70,7 @@ class Login extends React.Component<Props, *> {
             } else {
                 this.setState({redirectToReferrer: true, error: null});
             }
+            this.setState({loginInProcess: false});
         });
     };
 
@@ -75,7 +78,7 @@ class Login extends React.Component<Props, *> {
         const {from} = this.props.location.state || {
             from: {pathname: "/dashboard"}
         };
-        const {redirectToReferrer, error, passwordError, usernameError} = this.state;
+        const {redirectToReferrer, error, passwordError, usernameError, loginInProcess} = this.state;
 
         if (redirectToReferrer) {
             return <Redirect to={from}/>;
@@ -126,7 +129,11 @@ class Login extends React.Component<Props, *> {
                                 </div>
                                 <div className="row">
                                     <div className="column">
-                                        <button className="ui primary button" onClick={this.handleSubmit}>Login
+                                        <button className="ui primary button" onClick={this.handleSubmit}>
+                                            <span>Login </span>
+                                            {loginInProcess &&
+                                            <span className="ui inverted active right floated mini inline loader"/>
+                                            }
                                         </button>
                                     </div>
                                 </div>
