@@ -34,7 +34,7 @@ class Transactions extends React.Component {
                             transactions.map((transaction, index) => {
                                 return (
                                     <tr key={index}>
-                                        <td>{Moment(transaction.date).format("d MMMM, YYYY [um] hh:mm")}</td>
+                                        <td>{Moment(transaction.date).format("DD MMMM, YYYY [um] hh:mm")}</td>
                                         <td>{transaction.from}</td>
                                         <td>{transaction.target}</td>
                                         <td>{transaction.amount}</td>
