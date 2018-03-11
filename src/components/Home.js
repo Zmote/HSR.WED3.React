@@ -11,8 +11,14 @@ const Home = ({isAuthenticated}: Props) => (
   <div>
     { isAuthenticated
       ? <div>
-          <p>Willkommen zurück!</p>
-          <Link to={'/dashboard'}>Zum Dashboard</Link>
+          <div className="ui padded grid">
+            <div className="row">
+              <div className="sixteen wide column">
+                <p>Willkommen zurück!</p>
+                <Link className="ui primary button" to={'/dashboard'}>Zum Dashboard</Link>
+              </div>
+            </div>
+          </div>
         </div>
       : <div>
           <div className="ui padded grid">
