@@ -30,7 +30,8 @@ export type Transaction = {
 /* Use the exported functions to call the API. 
  * If necessary, adapt the backend address below:
  */
-const backend = "https://wed3-server.herokuapp.com";
+// const backend = "https://wed3-server.herokuapp.com";
+const backend = "https://wed3-server-dogan-brunner.herokuapp.com";
 
 export function login(
   login: string,

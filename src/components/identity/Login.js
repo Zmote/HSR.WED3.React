@@ -85,7 +85,7 @@ class Login extends React.Component<Props, *> {
         }
 
         return (
-            <div>
+            <div ref="loginComponent">
                 <div className="ui padded grid">
                     <div className="row">
                         <div className="column">

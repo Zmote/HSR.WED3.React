@@ -21,10 +21,10 @@ const Home = ({isAuthenticated}: Props) => (
                 <h1 className="ui top attached block header">Zum Login</h1>
                 <div className="ui bottom attached segment vertically padded grid">
                   <div className="row">
-                    <p className="column">
+                    <div className="column">
                       <p>Sie sind schon registriert, dann können Sie sich hier einloggen:</p>
                       <Link className="ui primary button" to={'/login'}>Einloggen</Link>
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -33,10 +33,10 @@ const Home = ({isAuthenticated}: Props) => (
                 <h1 className="ui top attached block header">Zur Registrierung</h1>
                 <div className="ui bottom attached segment vertically padded grid">
                   <div className="row">
-                    <p className="column">
+                    <div className="column">
                       <p>Falls Sie noch keinen Account besitzen, können Sie sich hier registrieren:</p>
                       <Link className="ui primary button" to={'/signup'}>Registrieren</Link>
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
