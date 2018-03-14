@@ -89,7 +89,7 @@ class Signup extends React.Component<{}, *> {
     const { login, firstname, lastname, password } = this.state;
     signup(login, firstname, lastname, password)
       .then(result => {
-        console.log("Signup result ", result);
+        // console.log("Signup result ", result);
         this.setState({ redirectToReferrer: true, error: null });
       })
       .catch(error => this.setState({ error }));

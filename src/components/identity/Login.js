@@ -66,11 +66,10 @@ class Login extends React.Component<Props, *> {
         const {login, password} = this.state;
         this.props.authenticate(login, password, error => {
             if (error) {
-                this.setState({error});
+                this.setState({error:error,loginInProcess: false});
             } else {
                 this.setState({redirectToReferrer: true, error: null});
             }
-            this.setState({loginInProcess: false});
         });
     };
 
