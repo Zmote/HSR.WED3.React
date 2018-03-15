@@ -21,7 +21,7 @@ const Home = ({isAuthenticated}: Props) => (
           </div>
         </div>
       : <div>
-          <div className="ui padded grid">
+          <div className="ui padded stackable grid">
             <div className="row">
               <div className="eight wide column">
                 <h1 className="ui top attached block header">Zum Login</h1>

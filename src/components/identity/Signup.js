@@ -16,8 +16,20 @@ class Signup extends React.Component<{}, *> {
       loginError: undefined,
       firstNameError: undefined,
       lastNameError: undefined,
-      passwordError: undefined
+      passwordError: undefined,
+      needsLoginReminder: false,
+      needsFirstNameReminder: false,
+      needsLastNameReminder: false,
+      needsPasswordReminder: false
   };
+
+    componentDidMount() {
+        // If targetAccountNr and targetAmount initialized empty, show notifications on component load
+        this.checkLogin("");
+        this.checkFirstName("");
+        this.checkLastName("");
+        this.checkPassword("");
+    }
 
   checkLogin = (login:String) => {
     if(login.length < 4){
@@ -87,16 +99,32 @@ class Signup extends React.Component<{}, *> {
   handleSubmit = (event: Event) => {
     event.preventDefault();
     const { login, firstname, lastname, password } = this.state;
-    signup(login, firstname, lastname, password)
-      .then(result => {
-        // console.log("Signup result ", result);
-        this.setState({ redirectToReferrer: true, error: null });
-      })
-      .catch(error => this.setState({ error }));
+
+    if (!login.length || !lastname.length || !firstname.length || !password.length){
+        if(!login.length) {
+            this.setState({needsLoginReminder: true});
+        }
+        if(!lastname.length){
+            this.setState({needsLastNameReminder: true});
+        }
+        if(!firstname.length){
+            this.setState({needsFirstNameReminder: true});
+        }
+        if(!password.length){
+            this.setState({needsPasswordReminder: true});
+        }
+    }else{
+        signup(login, firstname, lastname, password)
+            .then(result => {
+                // console.log("Signup result ", result);
+                this.setState({ redirectToReferrer: true, error: null });
+            })
+            .catch(error => this.setState({ error }));
+    }
   };
 
   render() {
-    const { redirectToReferrer, error, loginError, firstNameError, lastNameError, passwordError } = this.state;
+    const { redirectToReferrer, error, loginError, firstNameError, lastNameError, passwordError, needsFirstNameReminder, needsLastNameReminder, needsLoginReminder, needsPasswordReminder } = this.state;
 
     if (redirectToReferrer) {
       return <Redirect to="/login" />;
@@ -121,7 +149,7 @@ class Signup extends React.Component<{}, *> {
                         value={this.state.login}
                       />
                         {loginError &&
-                        <div className="ui pointing red basic label">
+                        <div className={"ui pointing basic label " + (needsLoginReminder ? "red" : "")}>
                             {loginError.message}
                         </div>
                         }
@@ -139,7 +167,7 @@ class Signup extends React.Component<{}, *> {
                         value={this.state.firstname}
                       />
                         {firstNameError &&
-                        <div className="ui pointing red basic label">
+                        <div className={"ui pointing basic label " + (needsFirstNameReminder ? "red" : "")}>
                             {firstNameError.message}
                         </div>
                         }
@@ -157,7 +185,7 @@ class Signup extends React.Component<{}, *> {
                         value={this.state.lastname}
                       />
                         {lastNameError &&
-                        <div className="ui pointing red basic label">
+                        <div className={"ui pointing basic label " + (needsLastNameReminder ? "red" : "")}>
                             {lastNameError.message}
                         </div>
                         }
@@ -176,7 +204,7 @@ class Signup extends React.Component<{}, *> {
                         value={this.state.password}
                       />
                         {passwordError &&
-                        <div className="ui pointing red basic label">
+                        <div className={"ui pointing basic label " + (needsPasswordReminder ? "red" : "")}>
                             {passwordError.message}
                         </div>
                         }
