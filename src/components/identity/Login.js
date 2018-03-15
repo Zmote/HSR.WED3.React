@@ -25,8 +25,16 @@ class Login extends React.Component<Props, *> {
         redirectToReferrer: false,
         passwordError: undefined,
         usernameError: undefined,
-        loginInProcess: false
+        loginInProcess: false,
+        loginNeedsReminder: false,
+        passwordNeedsReminder: false
     };
+
+
+    componentDidMount() {
+        this.checkLogin("");
+        this.checkPassword("");
+    }
 
     checkPassword = (password: String) => {
         if (password.length < 4) {
@@ -62,22 +70,32 @@ class Login extends React.Component<Props, *> {
 
     handleSubmit = (event: Event) => {
         event.preventDefault();
-        this.setState({loginInProcess: true});
-        const {login, password} = this.state;
-        this.props.authenticate(login, password, error => {
-            if (error) {
-                this.setState({error:error,loginInProcess: false});
-            } else {
-                this.setState({redirectToReferrer: true, error: null});
+        if(this.state.login.length < 4 || this.state.password.length < 4){
+            if(this.state.login.length < 4){
+                this.setState({loginNeedsReminder:true});
             }
-        });
+            if(this.state.password.length < 4){
+                this.setState({passwordNeedsReminder:true});
+            }
+        }else{
+            this.setState({loginInProcess: true, loginNeedsReminder:false, passwordNeedsReminder:false});
+            const {login, password} = this.state;
+            this.props.authenticate(login, password, error => {
+                if (error) {
+                    this.setState({error: error, loginInProcess: false});
+                } else {
+                    this.setState({redirectToReferrer: true, error: null});
+                }
+            });
+        }
     };
 
     render() {
         const {from} = this.props.location.state || {
             from: {pathname: "/dashboard"}
         };
-        const {redirectToReferrer, error, passwordError, usernameError, loginInProcess} = this.state;
+        const {redirectToReferrer, error, passwordError,
+            usernameError, loginInProcess, loginNeedsReminder, passwordNeedsReminder} = this.state;
 
         if (redirectToReferrer) {
             return <Redirect to={from}/>;
@@ -101,7 +119,7 @@ class Login extends React.Component<Props, *> {
                                                 value={this.state.login}
                                             />
                                             {usernameError &&
-                                            <div className="ui pointing red basic label">
+                                            <div className={"ui pointing basic label " + (loginNeedsReminder ? "red":"")}>
                                                 {usernameError.message}
                                             </div>
                                             }
@@ -119,7 +137,7 @@ class Login extends React.Component<Props, *> {
                                                 value={this.state.password}
                                             />
                                             {passwordError &&
-                                            <div className="ui pointing red basic label">
+                                            <div className={"ui pointing basic label " + (passwordNeedsReminder ? "red":"")}>
                                                 {passwordError.message}
                                             </div>
                                             }
