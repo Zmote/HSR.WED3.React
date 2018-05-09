@@ -141,37 +141,19 @@ class Signup extends React.Component<{}, *> {
                 <div className="row">
                   <div className="column">
                     <h2>Registrieren</h2>
-                    <div className="field">
-                      <label>Login</label>
-                      <input
-                        onChange={this.handleLoginChanged}
-                        placeholder="Login"
-                        value={this.state.login}
-                      />
-                        {loginError &&
-                        <div className={"ui pointing basic label " + (needsLoginReminder ? "red" : "")}>
-                            {loginError.message}
-                        </div>
-                        }
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="column">
-                    <div className="field">
-                      <label>Firstname</label>
-                      <input
-                        onChange={this.handleFirstNameChanged}
-                        placeholder="Vorname"
-                        value={this.state.firstname}
-                      />
-                        {firstNameError &&
-                        <div className={"ui pointing basic label " + (needsFirstNameReminder ? "red" : "")}>
-                            {firstNameError.message}
-                        </div>
-                        }
-                    </div>
+                      <div className="field">
+                          <label>Firstname</label>
+                          <input
+                              onChange={this.handleFirstNameChanged}
+                              placeholder="Vorname"
+                              value={this.state.firstname}
+                          />
+                          {firstNameError &&
+                          <div className={"ui pointing basic label " + (needsFirstNameReminder ? "red" : "")}>
+                              {firstNameError.message}
+                          </div>
+                          }
+                      </div>
                   </div>
                 </div>
 
@@ -191,6 +173,24 @@ class Signup extends React.Component<{}, *> {
                         }
                     </div>
                   </div>
+                </div>
+
+                <div className="row">
+                    <div className="column">
+                        <div className="field">
+                            <label>Login</label>
+                            <input
+                                onChange={this.handleLoginChanged}
+                                placeholder="Login"
+                                value={this.state.login}
+                            />
+                            {loginError &&
+                            <div className={"ui pointing basic label " + (needsLoginReminder ? "red" : "")}>
+                                {loginError.message}
+                            </div>
+                            }
+                        </div>
+                    </div>
                 </div>
 
                 <div className="row">
