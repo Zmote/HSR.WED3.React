@@ -11,16 +11,19 @@ class Signup extends React.Component<{}, *> {
       firstname: "",
       lastname: "",
       password: "",
+      confirmPassword: "",
       error: null,
       redirectToReferrer: false,
       loginError: undefined,
       firstNameError: undefined,
       lastNameError: undefined,
       passwordError: undefined,
+      passwordConfirmError: undefined,
       needsLoginReminder: false,
       needsFirstNameReminder: false,
       needsLastNameReminder: false,
-      needsPasswordReminder: false
+      needsPasswordReminder: false,
+      needsConfirmPasswordReminder: false
   };
 
     componentDidMount() {
@@ -63,6 +66,14 @@ class Signup extends React.Component<{}, *> {
     }
   };
 
+  checkConfirmPassword = (confirmPassword:String) => {
+      if(confirmPassword !== this.state.password){
+          this.setState({passwordConfirmError:{message:"Eingegebenes Passwort stimmt nicht überein"}})
+      }else{
+          this.setState({passwordConfirmError:undefined});
+      }
+  };
+
   handleLoginChanged = (event: Event) => {
     if (event.target instanceof HTMLInputElement) {
       const login = event.target.value;
@@ -93,14 +104,23 @@ class Signup extends React.Component<{}, *> {
       const password = event.target.value;
       this.setState({password});
       this.checkPassword(password);
+      this.checkConfirmPassword(this.state.confirmPassword);
     }
+  };
+
+  handleConfirmPasswordChanged = (event: Event) => {
+      if (event.target instanceof HTMLInputElement) {
+          const confirmPassword = event.target.value;
+          this.setState({confirmPassword});
+          this.checkConfirmPassword(confirmPassword);
+      }
   };
 
   handleSubmit = (event: Event) => {
     event.preventDefault();
-    const { login, firstname, lastname, password } = this.state;
+    const { login, firstname, lastname, password, confirmPassword } = this.state;
 
-    if (!login.length || !lastname.length || !firstname.length || !password.length){
+    if (!login.length || !lastname.length || !firstname.length || !password.length || (confirmPassword !== password)){
         if(!login.length) {
             this.setState({needsLoginReminder: true});
         }
@@ -113,6 +133,9 @@ class Signup extends React.Component<{}, *> {
         if(!password.length){
             this.setState({needsPasswordReminder: true});
         }
+        if(confirmPassword !== password){
+            this.setState({needsConfirmPasswordReminder: true});
+        }
     }else{
         signup(login, firstname, lastname, password)
             .then(result => {
@@ -124,7 +147,7 @@ class Signup extends React.Component<{}, *> {
   };
 
   render() {
-    const { redirectToReferrer, error, loginError, firstNameError, lastNameError, passwordError, needsFirstNameReminder, needsLastNameReminder, needsLoginReminder, needsPasswordReminder } = this.state;
+    const { redirectToReferrer, error, loginError, firstNameError, lastNameError, passwordError, passwordConfirmError, needsFirstNameReminder, needsLastNameReminder, needsLoginReminder, needsPasswordReminder, needsConfirmPasswordReminder } = this.state;
 
     if (redirectToReferrer) {
       return <Redirect to="/login" />;
@@ -141,37 +164,19 @@ class Signup extends React.Component<{}, *> {
                 <div className="row">
                   <div className="column">
                     <h2>Registrieren</h2>
-                    <div className="field">
-                      <label>Login</label>
-                      <input
-                        onChange={this.handleLoginChanged}
-                        placeholder="Login"
-                        value={this.state.login}
-                      />
-                        {loginError &&
-                        <div className={"ui pointing basic label " + (needsLoginReminder ? "red" : "")}>
-                            {loginError.message}
-                        </div>
-                        }
-                    </div>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div className="column">
-                    <div className="field">
-                      <label>Firstname</label>
-                      <input
-                        onChange={this.handleFirstNameChanged}
-                        placeholder="Vorname"
-                        value={this.state.firstname}
-                      />
-                        {firstNameError &&
-                        <div className={"ui pointing basic label " + (needsFirstNameReminder ? "red" : "")}>
-                            {firstNameError.message}
-                        </div>
-                        }
-                    </div>
+                      <div className="field">
+                          <label>Firstname</label>
+                          <input
+                              onChange={this.handleFirstNameChanged}
+                              placeholder="Vorname"
+                              value={this.state.firstname}
+                          />
+                          {firstNameError &&
+                          <div className={"ui pointing basic label " + (needsFirstNameReminder ? "red" : "")}>
+                              {firstNameError.message}
+                          </div>
+                          }
+                      </div>
                   </div>
                 </div>
 
@@ -194,12 +199,30 @@ class Signup extends React.Component<{}, *> {
                 </div>
 
                 <div className="row">
+                    <div className="column">
+                        <div className="field">
+                            <label>Login</label>
+                            <input
+                                onChange={this.handleLoginChanged}
+                                placeholder="Login"
+                                value={this.state.login}
+                            />
+                            {loginError &&
+                            <div className={"ui pointing basic label " + (needsLoginReminder ? "red" : "")}>
+                                {loginError.message}
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row">
                   <div className="column">
                     <div className="field">
                       <label>Password</label>
                       <input
                         onChange={this.handlePasswordChanged}
-                        placeholder="Passwort"
+                        placeholder="Password"
                         type="password"
                         value={this.state.password}
                       />
@@ -210,6 +233,25 @@ class Signup extends React.Component<{}, *> {
                         }
                     </div>
                   </div>
+                </div>
+
+                <div className="row">
+                    <div className="column">
+                        <div className="field">
+                            <label>Confirm Password</label>
+                            <input
+                                onChange={this.handleConfirmPasswordChanged}
+                                placeholder="Confirm Password"
+                                type="password"
+                                value={this.state.confirmPassword}
+                            />
+                            {passwordConfirmError &&
+                            <div className={"ui pointing basic label " + (needsConfirmPasswordReminder ? "red" : "")}>
+                                {passwordConfirmError.message}
+                            </div>
+                            }
+                        </div>
+                    </div>
                 </div>
 
                 <div className="row">
