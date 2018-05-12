@@ -66,8 +66,8 @@ class Signup extends React.Component<{}, *> {
     }
   };
 
-  checkConfirmPassword = (confirmPassword:String) => {
-      if(confirmPassword !== this.state.password){
+  checkConfirmPassword = (confirmPassword:String, password:String) => {
+      if(confirmPassword !== password){
           this.setState({passwordConfirmError:{message:"Eingegebenes Passwort stimmt nicht überein"}})
       }else{
           this.setState({passwordConfirmError:undefined});
@@ -104,7 +104,7 @@ class Signup extends React.Component<{}, *> {
       const password = event.target.value;
       this.setState({password});
       this.checkPassword(password);
-      this.checkConfirmPassword(this.state.confirmPassword);
+      this.checkConfirmPassword(this.state.confirmPassword, password);
     }
   };
 
@@ -112,7 +112,7 @@ class Signup extends React.Component<{}, *> {
       if (event.target instanceof HTMLInputElement) {
           const confirmPassword = event.target.value;
           this.setState({confirmPassword});
-          this.checkConfirmPassword(confirmPassword);
+          this.checkConfirmPassword(confirmPassword, this.state.password);
       }
   };
 
