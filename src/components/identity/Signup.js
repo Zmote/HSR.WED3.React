@@ -118,9 +118,9 @@ class Signup extends React.Component<{}, *> {
 
   handleSubmit = (event: Event) => {
     event.preventDefault();
-    const { login, firstname, lastname, password } = this.state;
+    const { login, firstname, lastname, password, confirmPassword } = this.state;
 
-    if (!login.length || !lastname.length || !firstname.length || !password.length){
+    if (!login.length || !lastname.length || !firstname.length || !password.length || (confirmPassword !== password)){
         if(!login.length) {
             this.setState({needsLoginReminder: true});
         }
@@ -132,6 +132,9 @@ class Signup extends React.Component<{}, *> {
         }
         if(!password.length){
             this.setState({needsPasswordReminder: true});
+        }
+        if(confirmPassword !== password){
+            this.setState({needsConfirmPasswordReminder: true});
         }
     }else{
         signup(login, firstname, lastname, password)
