@@ -14,16 +14,12 @@ class Nav extends React.Component {
                         <NavLink className="item"
                                  exact
                                  activeClassName="active"
-                                 to={"/"}>Home</NavLink>
+                                 to={"/dashboard"}>Dashboard</NavLink>
                         <NavLink className="item"
                                  exact
                                  activeClassName="active"
                                  to={"/transactions"}>Transaktionen</NavLink>
                         <div className="right menu">
-                            <NavLink className="item"
-                                     exact
-                                     activeClassName="active"
-                                     to={"/dashboard"}>Dashboard</NavLink>
                             <div className="item">
                                 <Link
                                     className="ui primary button"
