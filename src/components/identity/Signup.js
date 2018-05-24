@@ -29,10 +29,10 @@ class Signup extends React.Component<{}, *> {
 
     componentDidMount() {
         // If targetAccountNr and targetAmount initialized empty, show notifications on component load
-        this.checkLogin("");
-        this.checkFirstName("");
-        this.checkLastName("");
-        this.checkPassword("");
+        //this.checkLogin("");
+        //this.checkFirstName("");
+        //this.checkLastName("");
+        //this.checkPassword("");
     }
 
     checkLogin = (login: String) => {

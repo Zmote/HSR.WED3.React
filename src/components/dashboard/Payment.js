@@ -23,8 +23,8 @@ class Payment extends React.Component {
             this.setState(response);
         });
         // If targetAccountNr and targetAmount initialized empty, show notifications on component load
-        this.checkTargetAccount(undefined);
-        this.checkTransferAmount(undefined);
+        //this.checkTargetAccount(undefined);
+        //this.checkTransferAmount(undefined);
     }
 
     handleTargetAccountChanged = (event: Event) => {
@@ -52,6 +52,9 @@ class Payment extends React.Component {
     };
 
     performTransfer = () => {
+        this.checkTargetAccount(Number(this.state.targetAccountNr));
+        this.checkTransferAmount(Number(this.state.transferAmount));
+
         if (this.state.targetAccountNr && this.state.targetAccountExists
             && this.state.transferAmount && Number(this.state.transferAmount) >= 1) {
             console.log(Number(this.state.transferAmount));
@@ -108,8 +111,9 @@ class Payment extends React.Component {
 
     clearPaymentExecuted = () => {
         this.setState({paymentExecuted: false, targetAccountNr: "", transferAmount: ""});
-        this.checkTargetAccount(undefined);
-        this.checkTransferAmount(undefined);
+        this.setState({targetAccountMessage: undefined, targetAmountMessage: undefined});
+        //this.checkTargetAccount(undefined);
+        //this.checkTransferAmount(undefined);
     };
 
     render() {

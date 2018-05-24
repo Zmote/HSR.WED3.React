@@ -32,8 +32,8 @@ class Login extends React.Component<Props, *> {
 
 
     componentDidMount() {
-        this.checkLogin("");
-        this.checkPassword("");
+        //this.checkLogin("");
+        //this.checkPassword("");
     }
 
     checkPassword = (password: String) => {
