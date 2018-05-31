@@ -25,7 +25,7 @@ class TransactionsOverview extends React.Component {
 
     filterTransactions(year: Number, month: Number) {
         const fromDate = new Date(Number(year), Number(month));
-        const toDate = new Date(Number(year), Number(month) + 1, 0);
+        const toDate = new Date(Number(year), Number(month) + 1);
         console.log(fromDate,toDate);
         this.transactionService.loadTransactions(this.props.token, 10000, fromDate, toDate).then(response => {
             this.setState({transactions: response.result});
